@@ -1,8 +1,8 @@
 <hr>
 <footer class="container py-3">
     <p class="text-center text-muted mb-0">&copy; <?= date('Y') ?> Мій блог</p>
-    <?php if (!empty($searchQuery)) : ?>
-        <p class="text-center text-muted small">Результати пошуку за: «<?= htmlspecialchars($searchQuery, ENT_QUOTES, 'UTF-8') ?>»</p>
+    <?php if (!empty($search)) : ?>
+        <p class="text-center text-muted small">Результати пошуку за: «<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>»</p>
     <?php endif; ?>
 </footer>
 

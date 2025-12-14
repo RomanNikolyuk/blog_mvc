@@ -4,13 +4,16 @@ class Post
 {
     public $title;
     public $content;
-    public $createdAt;
+    public $created_at;
 
-    public function __construct($title, $content, $createdAt)
+    public function __construct($title, $content, $created_at = null)
     {
         $this->title = $title;
         $this->content = $content;
-        $this->createdAt = $createdAt;
+        if ($created_at === null) {
+            $created_at = \Carbon\Carbon::now()->format('d.m.Y');
+        }
+        $this->created_at = $created_at;
     }
 
     public static function getAll()
@@ -51,20 +54,19 @@ class Post
     public static function searchByTitle($query)
     {
         $query = trim((string)$query);
-        if (function_exists('mb_strtolower')) {
-            $query = mb_strtolower($query, 'UTF-8');
-        } else {
-            $query = strtolower($query);
-        }
-        if ($query === '') {
+        $toLower = function ($s) { return mb_strtolower((string)$s, 'UTF-8'); };
+        $contains = function ($haystack, $needle) { return mb_strpos($haystack, $needle, 0, 'UTF-8') !== false; };
+
+        $q = $toLower($query);
+        if ($q === '') {
             return self::getAll();
         }
+
         $result = [];
         foreach (self::getAll() as $post) {
-            $title = mb_strtolower($post->title, 'UTF-8');
-            $found = (mb_strpos($title, $query, 0, 'UTF-8') !== false);
-
-            if ($found) {
+            $title = $toLower($post->title);
+            $content = $toLower($post->content);
+            if ($contains($title, $q) || $contains($content, $q)) {
                 $result[] = $post;
             }
         }

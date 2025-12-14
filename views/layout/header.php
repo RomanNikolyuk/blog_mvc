@@ -14,4 +14,14 @@
 <header>
     <h1 class="text-primary">Мій блог</h1>
     <hr>
+    <div class="container">
+        <form class="row g-3 justify-content-center" method="get" action="index.php">
+            <div class="col-12 col-md-6">
+                <input type="text" class="form-control" name="search" placeholder="Пошук..." value="<?= isset($search) ? htmlspecialchars($search, ENT_QUOTES, 'UTF-8') : '' ?>">
+            </div>
+            <div class="col-12 col-md-auto">
+                <button type="submit" class="btn btn-primary mb-3">Пошук</button>
+            </div>
+        </form>
+    </div>
 </header>
